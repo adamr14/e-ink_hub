@@ -15,6 +15,10 @@ import traceback
 
 logging.basicConfig(level=logging.DEBUG)
 
+x = 0
+while x==0:
+    x=0
+
 try:
     logging.info("epd7in5_V2 Demo")
 
