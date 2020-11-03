@@ -1,2 +1,3 @@
 v1/credentials.txt
 v1/config.txt
+lib/waveshare_epd/__pycache__/*

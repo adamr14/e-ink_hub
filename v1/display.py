@@ -8,12 +8,52 @@ if os.path.exists(libdir):
     sys.path.append(libdir)
 
 import logging
-from waveshare_epd import epd7in5_V2
+#from waveshare_epd import epd7in5_V2
 import time
-from PIL import Image,ImageDraw,ImageFont
+#from PIL import Image,ImageDraw,ImageFont
 import traceback
+import json
+
+
+#
+# Kelvin to Farenheit Converter
+#
+def k_to_f(kelvin):
+    return int((kelvin-273.15)*(9/5) + 32)
 
 logging.basicConfig(level=logging.DEBUG)
+
+with open('data/weather.txt', 'r') as weather_file:
+    weather = json.load(weather_file)
+
+# Load Weather Data
+with open('data/disp_weather.txt', 'r') as disp_weather:
+    display_weather = json.load(disp_weather)
+    
+
+    
+# TODO: Load current todo list data
+    
+
+    
+
+disp_temp = k_to_f(display_weather['main']['temp'])
+disp_feels = k_to_f(display_weather['main']['feels_like'])
+disp_icon = display_weather['weather'][0]['icon']
+
+temp = k_to_f(weather['main']['temp'])
+feels = k_to_f(weather['main']['feels_like'])
+icon = weather['weather'][0]['icon']
+
+update = False
+
+
+if (disp_temp != temp or disp_feels != feels or disp_icon != icon):
+    with open('data/disp_weather.txt', 'w') as disp_weather:
+        json.dump(weather, disp_weather)
+    update = True
+    
+
 
 x = 0
 while x==0:
