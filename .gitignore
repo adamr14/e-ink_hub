@@ -1,3 +1,7 @@
 v1/credentials.txt
 v1/config.txt
 lib/waveshare_epd/__pycache__/*
+v1/__pycache__/*
+*.json
+sandbox/*
+*.pickle
