@@ -5,3 +5,6 @@ v1/__pycache__/*
 *.json
 sandbox/*
 *.pickle
+v1/credentials/weather_credentials.txt
+v1/data/icons/*
+v1/data/weather.txt

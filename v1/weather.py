@@ -13,7 +13,7 @@ import json
 import os.path
 from os import path
 
-with open('./credentials.txt', 'r') as credentials_file:
+with open('./credentials/weather_credentials.txt', 'r') as credentials_file:
     credentials = json.load(credentials_file)
     
     

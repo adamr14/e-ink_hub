@@ -13,6 +13,8 @@ import os.path
 from googleapiclient.discovery import build
 from google_auth_oauthlib.flow import InstalledAppFlow
 from google.auth.transport.requests import Request
+import csv
+from datetime import date
 
 # If modifying these scopes, delete the file token.pickle.
 SCOPES = ['https://www.googleapis.com/auth/calendar.readonly']
@@ -51,11 +53,28 @@ def main():
                                         orderBy='startTime').execute()
     events = events_result.get('items', [])
 
+    appointments = []
+    today = date.today()
+    date_string = today.strftime("%Y-%m-%d")
+    print("Date: ", date_string)
+    
     if not events:
         print('No upcoming events found.')
+        appointments = [{'time': '', 'description': ''}]
     for event in events:
         start = event['start'].get('dateTime', event['start'].get('date'))
+        if date_string in start:
+            times = start.replace(date_string, '')
+            appointments.append({'time': times[1:], 'description': event['summary']})
+         
         print(start, event['summary'])
+
+    # write events to csv
+    columns = ['time', 'description']
+    with open ('data/calendar.csv', 'w', newline='') as csvfile:
+        writer = csv.DictWriter(csvfile, fieldnames = columns)
+        for app in appointments:
+            writer.writerow(app)
 
 
 if __name__ == '__main__':
