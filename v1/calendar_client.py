@@ -9,12 +9,15 @@ Created on Wed Nov 11 13:40:50 2020
 from __future__ import print_function
 import datetime
 import pickle
-import os.path
 from googleapiclient.discovery import build
 from google_auth_oauthlib.flow import InstalledAppFlow
 from google.auth.transport.requests import Request
 import csv
 from datetime import date
+import os
+import sys
+
+os.chdir(os.path.dirname(sys.argv[0]))
 
 # If modifying these scopes, delete the file token.pickle.
 SCOPES = ['https://www.googleapis.com/auth/calendar.readonly']

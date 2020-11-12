@@ -10,8 +10,10 @@ import requests
 from datetime import datetime
 import json
 
-import os.path
-from os import path
+import os
+import sys
+
+os.chdir(os.path.dirname(sys.argv[0]))
 
 with open('./credentials/weather_credentials.txt', 'r') as credentials_file:
     credentials = json.load(credentials_file)
@@ -35,7 +37,7 @@ data = json.loads(response.text)
 print(data)
 
 #download icon
-if not path.exists('./data/icons/{}'.format(data['weather'][0]['icon'])):
+if not os.path.exists('./data/icons/{}'.format(data['weather'][0]['icon'])):
     #nothing
     image_url = 'http://openweathermap.org/img/wn/{}@2x.png'.format(data['weather'][0]['icon'])
     img_data = requests.get(image_url).content

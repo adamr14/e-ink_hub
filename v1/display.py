@@ -8,11 +8,15 @@ if os.path.exists(libdir):
     sys.path.append(libdir)
 
 import logging
-#from waveshare_epd import epd7in5_V2
+from waveshare_epd import epd7in5_V2
 import time
-#from PIL import Image,ImageDraw,ImageFont
+from PIL import Image,ImageDraw,ImageFont
 import traceback
 import json
+import os
+import sys
+
+os.chdir(os.path.dirname(sys.argv[0]))
 
 
 #
@@ -54,11 +58,6 @@ if (disp_temp != temp or disp_feels != feels or disp_icon != icon):
     update = True
     
 
-
-
-x = 0
-while x==0:
-    x=0
 
 try:
     logging.info("epd7in5_V2 Demo")
