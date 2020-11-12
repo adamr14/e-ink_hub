@@ -75,7 +75,7 @@ try:
     draw = ImageDraw.Draw(Limage)
     draw.text((90, 70), 'Date', font = font24, fill = 0)
     draw.text((325, 70), 'Weather', font = font24, fill = 0)
-    draw.text((20, 140), 'Todo', font = font24, fill = 0)
+    draw.text((200, 140), 'Todo', font = font24, fill = 0)
     
     # Dividers
     draw.line((0, 120, 480, 120),width = 4, fill = 0)
