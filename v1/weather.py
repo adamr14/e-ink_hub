@@ -13,37 +13,39 @@ import json
 import os
 import sys
 
-os.chdir(os.path.dirname(sys.argv[0]))
-
-with open('./credentials/weather_credentials.txt', 'r') as credentials_file:
-    credentials = json.load(credentials_file)
+def main():
+    os.chdir(os.path.dirname(sys.argv[0]))
     
-    
-
-with open('./config.txt', 'r') as config_file:
-    config = json.load(config_file)
-    
-    
-open_weather_key = credentials['weather_key']
-zip_code = config['zip_code']
-
-
-url = "https://api.openweathermap.org/data/2.5/weather?zip={}&appid={}".format(zip_code, credentials['weather_key'])
-
-response = requests.get(url)
-
-data = json.loads(response.text)
-
-print(data)
-
-#download icon
-if not os.path.exists('./data/icons/{}'.format(data['weather'][0]['icon'])):
-    #nothing
-    image_url = 'http://openweathermap.org/img/wn/{}@2x.png'.format(data['weather'][0]['icon'])
-    img_data = requests.get(image_url).content
-    with open('./data/icons/{}.jpg'.format(data['weather'][0]['icon']), 'wb') as handler:
-        handler.write(img_data)
+    with open('./credentials/weather_credentials.txt', 'r') as credentials_file:
+        credentials = json.load(credentials_file)
         
-#update cache
-with open ('./data/weather.txt', 'w') as outfile:
-    json.dump(data, outfile)
+        
+    
+    with open('./config.txt', 'r') as config_file:
+        config = json.load(config_file)
+        
+    zip_code = config['zip_code']
+    
+    
+    url = "https://api.openweathermap.org/data/2.5/weather?zip={}&appid={}".format(zip_code, credentials['weather_key'])
+    
+    response = requests.get(url)
+    
+    data = json.loads(response.text)
+    
+    print(data)
+    
+    #download icon
+    if not os.path.exists('./data/icons/{}'.format(data['weather'][0]['icon'])):
+        #nothing
+        image_url = 'http://openweathermap.org/img/wn/{}@2x.png'.format(data['weather'][0]['icon'])
+        img_data = requests.get(image_url).content
+        with open('./data/icons/{}.jpg'.format(data['weather'][0]['icon']), 'wb') as handler:
+            handler.write(img_data)
+            
+    #update cache
+    with open ('./data/weather.txt', 'w') as outfile:
+        json.dump(data, outfile)
+    
+if __name__ == '__main__':
+    main()

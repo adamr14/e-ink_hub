@@ -15,16 +15,17 @@ import csv
 import os
 import sys
 
-os.chdir(os.path.dirname(sys.argv[0]))
 
-# If modifying these scopes, delete the file token.pickle.
-SCOPES = ['https://www.googleapis.com/auth/tasks.readonly']
+
+
 
 def main():
-    """Shows basic usage of the Tasks API.
-    Prints the title and ID of the first 10 task lists.
-    """
+    os.chdir(os.path.dirname(sys.argv[0]))
+
     creds = None
+    # If modifying these scopes, delete the file token.pickle.
+    SCOPES = ['https://www.googleapis.com/auth/tasks.readonly']
+    
     # The file token.pickle stores the user's access and refresh tokens, and is
     # created automatically when the authorization flow completes for the first
     # time.
