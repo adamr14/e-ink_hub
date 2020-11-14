@@ -20,7 +20,7 @@ import sys
 
 
 def main():
-    os.chdir(os.path.dirname(sys.argv[0]))
+    #os.chdir(os.path.dirname(sys.argv[0]))
 
     creds = None
     # If modifying these scopes, delete the file token.pickle.

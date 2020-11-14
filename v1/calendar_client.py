@@ -23,7 +23,7 @@ import sys
 
 
 def main():
-    os.chdir(os.path.dirname(sys.argv[0]))
+    #os.chdir(os.path.dirname(sys.argv[0]))
 
     creds = None
     
@@ -76,6 +76,7 @@ def main():
 
     # write events to csv
     columns = ['time', 'description']
+    print(appointments)
     with open ('data/calendar.csv', 'w', newline='') as csvfile:
         writer = csv.DictWriter(csvfile, fieldnames = columns)
         for app in appointments:
