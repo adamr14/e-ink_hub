@@ -63,9 +63,6 @@ def main():
     date_string = today.strftime("%Y-%m-%d")
     print("Date: ", date_string)
     
-    if not events:
-        print('No upcoming events found.')
-        appointments = [{'time': '', 'description': ''}]
     for event in events:
         start = event['start'].get('dateTime', event['start'].get('date'))
         if date_string in start:
@@ -73,7 +70,10 @@ def main():
             appointments.append({'time': times[1:], 'description': event['summary']})
          
         print(start, event['summary'])
-
+    if not appointments:
+        print('No upcoming events found.')
+        appointments = [{'time': '', 'description': 'Nothing Scheduled'}]
+    
     # write events to csv
     columns = ['time', 'description']
     print(appointments)

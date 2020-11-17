@@ -101,11 +101,15 @@ def main():
     update = True
     if update:
         try:
-            display = Hub_Graphics()
-            display.draw_weather(300, 100, weather)
-            display.draw_tasks(25, 350, current_tasks)
-            display.draw_date(80, 20)
-            display.draw_calendar(15, 100, current_calendar)
+            display = Hub_Graphics(False)
+            display.draw_date_v()
+            display.draw_weather_v(weather)
+            display.draw_calendar_v(current_calendar)
+            display.draw_tasks_v(245 + len(current_calendar)*28, current_tasks)
+            #display.draw_date_v(20, 0)
+            #display.draw_weather_v(300, 30, weather)
+            #display.draw_tasks_v(65 + len(current_calendar)*25, current_tasks)
+            #display.draw_calendar_v(current_calendar)
             display.update()
                 
         except IOError as e:
