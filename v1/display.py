@@ -4,19 +4,19 @@ import sys
 import os
 import logging
 import time
+from datetime import datetime
 import traceback
 import json
 import csv
 from hub_graphics import Hub_Graphics
 from hub_graphics import k_to_f
+from clear_messages import clear_message_file
 logging.basicConfig(level=logging.DEBUG)
-
 
 
 def main():
     #change directory
-    #os.chdir(os.path.dirname(sys.argv[0]))
-    
+    os.chdir(os.path.dirname(sys.argv[0]))
     #
     # Check for updates with weather, tasks, and calendar items
     #
@@ -30,7 +30,6 @@ def main():
     with open('data/disp_weather.txt', 'r') as disp_weather:
         display_weather = json.load(disp_weather)
         
-    
     disp_temp = k_to_f(display_weather['main']['temp'])
     disp_feels = k_to_f(display_weather['main']['feels_like'])
     disp_icon = display_weather['weather'][0]['icon']
@@ -40,7 +39,7 @@ def main():
     icon = weather['weather'][0]['icon']
     
     # compare current and displayed
-    if (disp_temp != temp or disp_feels != feels or disp_icon != icon):
+    if (disp_temp != temp or disp_icon != icon):
         #Update displayed weather data
         with open('data/disp_weather.txt', 'w') as disp_weather:
             json.dump(weather, disp_weather)
@@ -71,6 +70,7 @@ def main():
             writer = csv.writer(csvfile)
             writer.writerow(current_tasks)
         update = True
+        clear_message_file()
         
         
     # load current calendar items
@@ -79,7 +79,6 @@ def main():
         calendar_reader = csv.reader(csvfile, delimiter =',')
         for row in calendar_reader:
             current_calendar.append({'time': row[0], 'description': row[1]})
-        #print(current_calendar)
         
     # load current calendar items
     disp_calendar = []
@@ -88,9 +87,11 @@ def main():
         for row in calendar_reader:
             disp_calendar.append({'time': row[0], 'description': row[1]})
         #print(disp_calendar)
+            
         
     if disp_calendar != current_calendar:
-        print('update')
+        update = True
+        clear_message_file()
         # update displayed calendar data
         columns = ['time', 'description']
         with open ('data/disp_calendar.csv', 'w', newline='') as csvfile:
@@ -98,14 +99,31 @@ def main():
             for app in current_calendar:
                 writer.writerow(app)
     
-    update = True
+    # see if theres a message
+    file = open('data/message.txt', 'r')
+    message = file.read()
+    disp_file = open('data/disp_message.txt', 'r')
+    disp_message = disp_file.read()
+    if message != disp_message:
+        disp_file = open('data/disp_message.txt', 'w')
+        disp_file.write(message)
+        update = True
+        
+    
+    # calculate how many lines to display
+    num_lines = len(current_calendar)+len(current_tasks)
+    max_tasks = 19 - len(current_calendar)
+    
+    #update = True
     if update:
         try:
             display = Hub_Graphics(False)
             display.draw_date_v()
             display.draw_weather_v(weather)
             display.draw_calendar_v(current_calendar)
-            display.draw_tasks_v(245 + len(current_calendar)*28, current_tasks)
+            display.draw_tasks_v(160 + len(current_calendar)*30, current_tasks, max_tasks)
+            if (len(message) > 0):
+                display.draw_message(message)
             #display.draw_date_v(20, 0)
             #display.draw_weather_v(300, 30, weather)
             #display.draw_tasks_v(65 + len(current_calendar)*25, current_tasks)

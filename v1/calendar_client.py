@@ -23,7 +23,7 @@ import sys
 
 
 def main():
-    #os.chdir(os.path.dirname(sys.argv[0]))
+    os.chdir(os.path.dirname(sys.argv[0]))
 
     creds = None
     
@@ -52,7 +52,6 @@ def main():
 
     # Call the Calendar API
     now = datetime.datetime.utcnow().isoformat() + 'Z' # 'Z' indicates UTC time
-    print('Getting the upcoming 10 events')
     events_result = service.events().list(calendarId='primary', timeMin=now,
                                         maxResults=10, singleEvents=True,
                                         orderBy='startTime').execute()
@@ -61,8 +60,6 @@ def main():
     appointments = []
     today = date.today()
     date_string = today.strftime("%Y-%m-%d")
-    print("Date: ", date_string)
-    
     for event in events:
         start = event['start'].get('dateTime', event['start'].get('date'))
         if date_string in start:

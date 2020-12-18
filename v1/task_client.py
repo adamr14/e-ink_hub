@@ -20,7 +20,7 @@ import sys
 
 
 def main():
-    #os.chdir(os.path.dirname(sys.argv[0]))
+    os.chdir(os.path.dirname(sys.argv[0]))
 
     creds = None
     # If modifying these scopes, delete the file token.pickle.
@@ -48,7 +48,7 @@ def main():
 
     # Call the Tasks API
     # will need to get task list id
-    results = service.tasks().list(tasklist = 'MTc2Njg5NTAzNDYzODI2ODA1Njc6MDow', maxResults=10).execute()
+    results = service.tasks().list(tasklist = 'MTc2Njg5NTAzNDYzODI2ODA1Njc6MDow', maxResults=20).execute()
     items = results.get('items', [])
 
     tasks = []

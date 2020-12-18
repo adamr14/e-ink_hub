@@ -36,7 +36,7 @@ ICON_MAP = {
     
 
 def main():
-    #os.chdir(os.path.dirname(sys.argv[0]))
+    os.chdir(os.path.dirname(sys.argv[0]))
     with open('./credentials/weather_credentials.txt', 'r') as credentials_file:
         credentials = json.load(credentials_file)
     with open('./config.txt', 'r') as config_file:
@@ -45,6 +45,7 @@ def main():
     url = "https://api.openweathermap.org/data/2.5/weather?zip={}&appid={}".format(zip_code, credentials['weather_key'])
     response = requests.get(url)
     data = json.loads(response.text)
+    print(data)
     #update cache
     with open ('./data/weather.txt', 'w') as outfile:
         json.dump(data, outfile)
